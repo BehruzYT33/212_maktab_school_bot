@@ -1,41 +1,43 @@
 const TelegramBot = require('node-telegram-bot-api');
 
-// ⚠️ лучше потом вынести в .env
+// ⚠️ вставь свой токен
 const TOKEN = '8416631267:AAFmjWB3leuE_Nx0v8KaPQcomNwYdy5LtfA';
+const bot = new TelegramBot(TOKEN, { polling: true });
 
-const bot = new TelegramBot(TOKEN, {
-  polling: true
-});
+// Telegram ID администратора
+const ADMIN_ID = 6876281483;
 
 console.log('Бот запущен');
 
-// /start
-bot.onText(/\/start/, (msg) => {
-  bot.sendMessage(
-    msg.chat.id,
-    '👋 Привет! Я бот школы №212\n\nКоманды:\n/news\n/help'
-  );
-});
+// Проверка, является ли пользователь админом
+function isAdmin(userId) {
+  return userId === ADMIN_ID;
+}
 
-// /help
-bot.onText(/\/help/, (msg) => {
-  bot.sendMessage(
-    msg.chat.id,
-    '📌 Доступные команды:\n/start\n/news'
-  );
-});
-
-// /news
-bot.onText(/\/news/, (msg) => {
-  bot.sendMessage(
-    msg.chat.id,
-    '📰 Новости школы:\nСегодня всё по расписанию.'
-  );
-});
-
-// любое сообщение
+// Обработка сообщений
 bot.on('message', (msg) => {
-  if (!msg.text.startsWith('/')) {
-    bot.sendMessage(msg.chat.id, '❗ Используй команды');
+  const chatId = msg.chat.id;
+
+  if (!isAdmin(chatId)) {
+    bot.sendMessage(chatId, '⚠️ Бот еще в разработке');
+    return; // выходим, дальше команды не обрабатываются
   }
+
+  // --- Ниже команды только для администратора ---
+  
+  // /start
+  if (msg.text === '/start') {
+    bot.sendMessage(chatId, '👋 Привет, администратор! Бот запущен.');
+  }
+
+  // /help
+  if (msg.text === '/help') {
+    bot.sendMessage(chatId, '📌 Команды администратора:\n/start\n/help\n/news');
+  }
+
+  // /news
+  if (msg.text === '/news') {
+    bot.sendMessage(chatId, '📰 Новости школы:\nСегодня уроки идут по расписанию.');
+  }
+
 });
