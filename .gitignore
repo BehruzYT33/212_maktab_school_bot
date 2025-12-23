@@ -1,0 +1,12 @@
+# Не добавляем node_modules
+node_modules/
+
+# Если используешь токен в .env, тоже не добавляем
+.env
+
+# Логи
+*.log
+
+# MacOS / Windows временные файлы
+.DS_Store
+Thumbs.db
