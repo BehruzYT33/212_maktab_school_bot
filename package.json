@@ -1,0 +1,14 @@
+{
+  "name": "212_maktab_school_bot",
+  "version": "1.0.0",
+  "description": "Простой Telegram бот для школы №212",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "author": "Behruz",
+  "license": "MIT",
+  "dependencies": {
+    "node-telegram-bot-api": "^0.61.0"
+  }
+}
